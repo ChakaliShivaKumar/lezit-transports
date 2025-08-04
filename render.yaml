@@ -3,7 +3,6 @@ services:
   - type: web
     name: lezit-transports-backend
     env: node
-    plan: starter
     rootDir: backend
     buildCommand: npm install && npm run build
     startCommand: npm start
