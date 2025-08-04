@@ -3,7 +3,7 @@ services:
   - type: web
     name: lezit-transports-backend
     env: node
-    plan: free
+    plan: starter
     rootDir: backend
     buildCommand: npm install && npm run build
     startCommand: npm start
@@ -42,10 +42,8 @@ services:
         sync: false
 
   # Frontend Static Site
-  - type: web
+  - type: static
     name: lezit-transports-frontend
-    env: static
-    plan: free
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: ./build
