@@ -35,7 +35,9 @@ app.use(morgan('combined'));
 const allowedOrigins = [
   'http://localhost:3000', 
   'http://127.0.0.1:3000',
-  process.env.FRONTEND_URL
+  process.env.FRONTEND_URL,
+  // Allow all Render domains
+  /^https:\/\/.*\.onrender\.com$/
 ].filter(Boolean);
 
 app.use(cors({
@@ -43,9 +45,20 @@ app.use(cors({
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
     
-    if (allowedOrigins.indexOf(origin) !== -1) {
+    // Check if origin matches any allowed origins
+    const isAllowed = allowedOrigins.some(allowedOrigin => {
+      if (typeof allowedOrigin === 'string') {
+        return allowedOrigin === origin;
+      } else if (allowedOrigin instanceof RegExp) {
+        return allowedOrigin.test(origin);
+      }
+      return false;
+    });
+    
+    if (isAllowed) {
       callback(null, true);
     } else {
+      console.log('CORS blocked origin:', origin);
       callback(new Error('Not allowed by CORS'));
     }
   },
