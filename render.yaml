@@ -42,8 +42,9 @@ services:
         sync: false
 
   # Frontend Static Site
-  - type: static
+  - type: web
     name: lezit-transports-frontend
+    env: static
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: ./build
